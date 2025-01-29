@@ -4,7 +4,7 @@ from django.urls import reverse
 import logging
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm
+from .forms import ContactForm,RegisterForm
 # Create your views here.
 #static demo data
 # posts = [
@@ -80,7 +80,13 @@ def about(request):
     return render(request,'blog/about.html',{'about_content':about_content})
 
 def register(request):
+    form = RegisterForm()
     if request.method == 'POST':
-        
-    return render(request,'blog/register.html')
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()#user data creating
+            print('Register success!')
+        else:
+            print('Register failure!')
+    return render(request,'blog/register.html',{'form':form})
 
