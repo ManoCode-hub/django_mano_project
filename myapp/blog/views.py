@@ -55,7 +55,10 @@ def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         # form.cleaned_data['Name']
+        logger = logging.getLogger("TESTING")
         if form.is_valid():
-            logger = logging.getLogger("TESTING")
             logger.debug(f'POST DATA is {form.cleaned_data['name']} {form.cleaned_data['email']} {form.cleaned_data['message']}')
+        else:
+            logger.debug("Form Validation failure!")
+        
     return render(request,'blog/contact.html')
