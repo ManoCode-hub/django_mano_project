@@ -84,7 +84,9 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()#user data creating
+            user = form.save(commit=False)#user data creating
+            user.set_password(form.cleaned_data['password'])#set password as hash
+            user.save()
             print('Register success!')
         else:
             print('Register failure!')
