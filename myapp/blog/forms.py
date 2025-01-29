@@ -22,6 +22,7 @@ class RegisterForm(forms.ModelForm):
         password_confirm = cleaned_data.get('password_confirm')
         
         if password and password_confirm and password != password_confirm:
+            #this is custom validation
             raise forms.ValidationError("Passwords do not match!")
         
         
