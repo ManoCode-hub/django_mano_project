@@ -51,3 +51,6 @@ def old_url_redirect(request):
 
 def new_url_view(request):
     return HttpResponse("This is the new URL")
+
+def contact_view(request):
+   return render(request,'blog/contact.html')
