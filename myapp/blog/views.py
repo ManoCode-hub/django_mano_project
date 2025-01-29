@@ -123,4 +123,4 @@ def dashboard(request):
 
 def logout(request):
     auth_logout(request)
-     return redirect("blog:index")#redirect to home page 
+    return redirect("blog:index")#redirect to home page 
