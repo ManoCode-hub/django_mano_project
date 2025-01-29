@@ -91,6 +91,7 @@ def register(request):
             user.save()
             # print('Register success!')
             messages.success(request, 'Registration succesful. You can log in!')
+            return redirect("blog:login")
         else:
             print('Register failure!')
     return render(request,'blog/register.html',{'form':form})
