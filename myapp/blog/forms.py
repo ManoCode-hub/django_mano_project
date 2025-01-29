@@ -25,4 +25,6 @@ class RegisterForm(forms.ModelForm):
             #this is custom validation
             raise forms.ValidationError("Passwords do not match!")
         
-        
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Username',max_length=100, required=True)
+    password = forms.CharField(label='Password',max_length=100, required=True)

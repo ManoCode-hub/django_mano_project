@@ -4,7 +4,7 @@ from django.urls import reverse
 import logging
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm,RegisterForm
+from .forms import ContactForm,RegisterForm,LoginForm
 from django.contrib import messages
 # Create your views here.
 #static demo data
@@ -94,3 +94,14 @@ def register(request):
             print('Register failure!')
     return render(request,'blog/register.html',{'form':form})
 
+def login(request):
+    form = LoginForm()
+    if request.method == 'POST':
+        #login form 
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            print("LOGIN SUCCESS!")
+        else:
+            print("LOGIN FAILURE!")
+        
+    return render(request,'blog/login.html',{'form':form})
