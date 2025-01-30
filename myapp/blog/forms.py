@@ -70,15 +70,18 @@ class PostForm(forms.ModelForm):
     title = forms.CharField(label='Title', max_length=200, required=True)
     content = forms.CharField(label='Content', required=True)
     category = forms.ModelChoiceField(label='Category', required=True, queryset=Category.objects.all())
+    img_url = forms.ImageField(label='Image', required=False)
+    
     
     class Meta:
         model = Post
-        fields = ['title', 'content', 'category']
+        fields = ['title', 'content', 'category', 'img_url']
         
     def clean(self):
         cleaned_data = super().clean()
         title = cleaned_data.get('title')
         content = cleaned_data.get('content')
+        
         
         #custom validation
         if title and len(title) < 5:
@@ -90,10 +93,14 @@ class PostForm(forms.ModelForm):
     def save(self, commit= ...):
             
         post = super().save(commit)
+        cleaned_data = super().clean()
         
-        img_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
-        
-        post.img_url = img_url
+        if cleaned_data.get('img_url'):
+            post.img_url = cleaned_data.get('img_url')
+            
+        else:
+            img_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
+            post.img_url = img_url
         if commit:
             post.save()
         return post
