@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest, Http404
 from django.urls import reverse
 import logging
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm
+from .forms import ContactForm, ForgotPasswordForm,RegisterForm,LoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 
@@ -133,6 +134,7 @@ def logout(request):
     return redirect("blog:index")#redirect to home page 
 
 def forgot_password(request):
+    form = ForgotPasswordForm()
     if request.method == 'POST':
         #form
         form =ForgotPasswordForm(request.POST)
@@ -142,7 +144,7 @@ def forgot_password(request):
             #send email to reset password
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            current_site = get_current_side(request)#127.0.0.1:8000
+            current_site = get_current_site(request)#127.0.0.1:8000
             domain = current_site.domain
             subject = "Reset Password Requested"
             message = render_to_string('blog/reset_password_email.html',{
@@ -151,11 +153,11 @@ def forgot_password(request):
                 'token':token
                 })
             
-            send_mail(subject, message, 'noreply@example.com', [email])
+            send_mail(subject, message, 'noreply@mandcode.com', [email])
             messages.success(request, "Email has been sent!")
+    
             
-            
-    return render(request,'blog/forgot_password.html')
+    return render(request,'blog/forgot_password.html',{'form':form})
 
 
 def reset_password(request):

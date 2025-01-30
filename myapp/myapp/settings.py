@@ -277,3 +277,13 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+# Email Configuration
+DEFAULT_FROM_EMAIL = 'your_email@mandcode.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '5c9d719a3528bf'
+EMAIL_HOST_PASSWORD = 'f7f5cc05fd3703'
