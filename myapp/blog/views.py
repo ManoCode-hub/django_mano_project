@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest, Http404
 from django.urls import reverse
 import logging
-from .models import Post,AboutUs
+from .models import Category, Post,AboutUs
 from django.core.paginator import Paginator
 from .forms import ContactForm, ForgotPasswordForm,RegisterForm,LoginForm,ResetPasswordForm
 from django.contrib import messages
@@ -192,4 +192,6 @@ def reset_password(request, uidb64, token):
 
 
 def new_post(request):
-    return render(request,'blog/new_post.html')
+    categories = Category.objects.all()
+    
+    return render(request,'blog/new_post.html',{'categories':categories})
