@@ -125,7 +125,15 @@ def login(request):
 
 def dashboard(request):
     blog_title = "My Posts"
-    return render(request,'blog/dashboard.html', {'blog_title':blog_title})
+    #getting user posts
+    all_posts = Post.objects.filter(user=request.user)
+    
+    #we want use paginator
+    paginator = Paginator(all_posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request,'blog/dashboard.html', {'blog_title':blog_title,'page_obj':page_obj})
 
 
 
@@ -181,3 +189,7 @@ def reset_password(request, uidb64, token):
                 messages.error(request, 'The password reset link is invalid!')
             
     return render(request,'blog/reset_password.html',{'form':form})
+
+
+def new_post(request):
+    return render(request,'blog/new_post.html')
