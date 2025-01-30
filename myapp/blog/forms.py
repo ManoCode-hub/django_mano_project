@@ -50,3 +50,16 @@ class ForgotPasswordForm(forms.Form):
         
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("No User Register with this email. Please register first.")
+        
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(label='New Password', min_length=8)
+    confirm_password = forms.CharField(label='Confirm Password', min_length=8)
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+        
+        if password and confirm_password and password != confirm_password:
+            #this is custom validation
+            raise forms.ValidationError("Passwords do not match!")
