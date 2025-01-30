@@ -13,6 +13,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
+from django.core.mail import send_mail
 # Create your views here.
 #static demo data
 # posts = [
@@ -149,6 +150,9 @@ def forgot_password(request):
                 'uid':uid,
                 'token':token
                 })
+            
+            send_mail(subject, message, 'noreply@example.com', [email])
+            messages.success(request, "Email has been sent!")
             
             
     return render(request,'blog/forgot_password.html')
