@@ -40,3 +40,13 @@ class LoginForm(forms.Form):
             if user is None:
                 raise forms.ValidationError("Invalid username and password")
             
+            
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(label='Email',max_length=254, required=True)
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("No User Register with this email. Please register first.")

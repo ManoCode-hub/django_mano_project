@@ -4,7 +4,7 @@ from django.urls import reverse
 import logging
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm,RegisterForm,LoginForm
+from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 # Create your views here.
@@ -126,4 +126,8 @@ def logout(request):
     return redirect("blog:index")#redirect to home page 
 
 def forgot_password(request):
+    if request.method == 'POST':
+        #form
+        form =ForgotPasswordForm(request.POST)
+        
     return render(request,'blog/forgot_password.html')
