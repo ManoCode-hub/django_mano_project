@@ -215,6 +215,8 @@ def edit_post(request, post_id):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Post Updated successfully!')
+
             return redirect('blog:dashboard')
     
     return render(request,'blog/edit_post.html',{'categories':categories,'post':post,'form':form})
