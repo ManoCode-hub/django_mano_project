@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpRequest, Http404
 from django.urls import reverse
@@ -203,3 +203,18 @@ def new_post(request):
             post.save()
             return redirect('blog:dashboard')
     return render(request,'blog/new_post.html',{'categories':categories,'form':form})
+
+
+def edit_post(request, post_id):
+    form = PostForm()
+    categories = Category.objects.all()
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == 'POST':
+        #form
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:dashboard')
+    
+    return render(request,'blog/edit_post.html',{'categories':categories,'post':post,'form':form})
