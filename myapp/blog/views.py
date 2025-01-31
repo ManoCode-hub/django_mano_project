@@ -15,6 +15,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 #static demo data
 # posts = [
@@ -123,7 +124,7 @@ def login(request):
         
     return render(request,'blog/login.html',{'form':form})
 
-
+@login_required
 def dashboard(request):
     blog_title = "My Posts"
     #getting user posts
@@ -137,11 +138,11 @@ def dashboard(request):
     return render(request,'blog/dashboard.html', {'blog_title':blog_title,'page_obj':page_obj})
 
 
-
+@login_required
 def logout(request):
     auth_logout(request)
     return redirect("blog:index")#redirect to home page 
-
+@login_required
 def forgot_password(request):
     form = ForgotPasswordForm()
     if request.method == 'POST':
@@ -167,7 +168,7 @@ def forgot_password(request):
     
             
     return render(request,'blog/forgot_password.html',{'form':form})
-
+@login_required
 def reset_password(request, uidb64, token):
     form = ResetPasswordForm()
     if request.method == 'POST':
@@ -191,7 +192,7 @@ def reset_password(request, uidb64, token):
             
     return render(request,'blog/reset_password.html',{'form':form})
 
-
+@login_required
 def new_post(request):
     categories = Category.objects.all()
     form = PostForm()
@@ -205,7 +206,7 @@ def new_post(request):
             return redirect('blog:dashboard')
     return render(request,'blog/new_post.html',{'categories':categories,'form':form})
 
-
+@login_required
 def edit_post(request, post_id):
     form = PostForm()
     categories = Category.objects.all()
@@ -222,7 +223,7 @@ def edit_post(request, post_id):
     
     return render(request,'blog/edit_post.html',{'categories':categories,'post':post,'form':form})
 
-
+@login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post.delete()
@@ -230,7 +231,7 @@ def delete_post(request, post_id):
 
     return redirect('blog:dashboard')
 
-
+@login_required
 def publish_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post.is_published = True

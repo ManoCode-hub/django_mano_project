@@ -293,3 +293,5 @@ EMAIL_HOST_PASSWORD = 'f7f5cc05fd3703'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+LOGIN_URL ='/login'
