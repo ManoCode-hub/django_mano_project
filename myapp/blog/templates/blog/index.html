@@ -6,7 +6,9 @@
             <div class="col">
                 <h2 >{{blog_title}} </h2>
             </div>
+            {% include 'blog/includes/errors.html' %}
             <div class="col-3">
+                
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
                     <button class="btn btn-outline-light btn-primary " type="button" id="button-search">

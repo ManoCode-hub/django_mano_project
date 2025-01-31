@@ -48,11 +48,16 @@ def index(request):
     return render(request,'blog/index.html',{'blog_title':blog_title,'page_obj':page_obj})
 
 def detail(request, slug):
+    if request.user and not request.user.has_perm('blog.view_post'):
+        messages.error(request, 'You do not have permission to view any post.')
+        return redirect('blog:index')
+        
     # return HttpResponse(f"You are viewing post detail page and ID is {post_id}")
     # static data
     # post = next((item for item in posts if item['id'] == int(post_id)),None)
     
     #getting data from model by post id
+    
     try:
         post = Post.objects.get(slug=slug)
         related_posts = Post.objects.filter(category = post.category).exclude(pk=post.id)
