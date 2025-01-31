@@ -16,6 +16,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 # Create your views here.
 #static demo data
 # posts = [
@@ -100,6 +101,9 @@ def register(request):
             user.set_password(form.cleaned_data['password'])#set password as hash
             user.save()
             # print('Register success!')
+            #add user to readers group
+            readers_group,created = Group.objects.get_or_create(name="Readers")
+            user.groups.add(readers_group)
             messages.success(request, 'Registration succesful. You can log in!')
             return redirect("blog:login")
         else:
