@@ -28,7 +28,8 @@ def index(request):
     # return HttpResponse("Hello world, You are at blog's index")
     blog_title = "Latest Posts"
     #getting data from post model
-    all_posts = Post.objects.all()
+    # all_posts = Post.objects.all()
+    all_posts = Post.objects.filter(is_published=True)
     #we want use paginator
     paginator = Paginator(all_posts, 5)
     page_number = request.GET.get('page')
@@ -229,3 +230,11 @@ def delete_post(request, post_id):
 
     return redirect('blog:dashboard')
 
+
+def publish_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.is_published = True
+    post.save()
+    messages.success(request, 'Post Published successfully!')
+
+    return redirect('blog:dashboard')
